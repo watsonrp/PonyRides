@@ -1,0 +1,30 @@
+﻿@model IEnumerable<PonyRidesWebSite.Models.Data.Pony>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<table class="table" cellpadding="20" cellspacing="15">
+
+    <tbody>
+        <tr>
+            @{
+                int i = 0;
+                foreach (var item in Model)
+                {
+                    if ((i % 3) == 0)
+                    {
+                        @:</tr><tr>
+                    }
+
+                    <td class="text-center">
+                        <h2><a href="/BrowsePonies/Book/@Html.DisplayFor(modelItem => item.ID)">@Html.DisplayFor(modelItem => item.Name)</a></h2>
+                        <img src="@Html.DisplayFor(modelItem => item.Picture)" />
+                    </td>
+                    i++;
+                }
+            }
+
+        </tr>
+    </tbody>
+</table>

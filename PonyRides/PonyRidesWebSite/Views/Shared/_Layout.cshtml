@@ -17,23 +17,22 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Pony Rides!", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
 
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    @if (Request.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("Booking", "Index", "Booking")</li>
-                        <li>@Html.ActionLink("Ponies", "Index", "Ponies")</li>
-                    }
-                    @if (Request.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("Administration", "Index", "Admin")</li>
-                    }
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        @if (this.User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("Booking Admin", "Index", "Booking")</li>
+                            <li>@Html.ActionLink("Pony Admin", "Index", "Ponies")</li>
+                        }
+                        @if (Request.IsAuthenticated && !this.User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("My Bookings", "Index", "MyBookings")</li>
+                            <li>@Html.ActionLink("Browse Ponies", "Index", "BrowsePonies")</li>
+                        }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
