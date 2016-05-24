@@ -11,7 +11,10 @@ namespace PonyRidesWebSite.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+            
+            // register mysql code generator
+            SetSqlGenerator("MySql.Data.MySqlClient", new MySql.Data.Entity.MySqlMigrationSqlGenerator());
         }
 
         protected override void Seed(PonyRidesWebSite.Models.Data.PonyContext context)
@@ -28,3 +31,4 @@ namespace PonyRidesWebSite.Migrations
         }
     }
 }
+
