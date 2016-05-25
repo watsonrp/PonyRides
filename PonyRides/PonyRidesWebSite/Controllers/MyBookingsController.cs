@@ -11,6 +11,51 @@ namespace PonyRidesWebSite.Controllers
 {
     public class MyBookingsController : Controller
     {
+
+        // GET: MyBookings
+        public ActionResult Index()
+        {
+            using (PonyContext db = new PonyContext())
+            {
+                var userid = User.Identity.GetUserId();
+                List<Booking> bookings = db.Bookings.Where(x => x.CustomerID == userid).OrderBy(x => x.Day).ToList();
+                List<BookingList> bookingsList = new List<BookingList>();
+                BookingList bookingList;
+                foreach(Booking booking in bookings)
+                {
+                    bookingList = new BookingList();
+                    bookingList.Day = booking.Day.ToShortDateString();
+                    bookingList.Session = getSession(booking.Session);
+                    bookingList.PonyName = db.Ponies.Find(booking.PonyID).Name;
+                    bookingList.PonyPicture = db.Ponies.Find(booking.PonyID).Picture;
+                    bookingsList.Add(bookingList);
+                }
+                return View(bookingsList);
+            }
+        }
+
+        //// GET: MyBookings/Delete/5
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
+
+        // POST: MyBookings/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         string getSession(int session)
         {
             string val;
@@ -33,98 +78,5 @@ namespace PonyRidesWebSite.Controllers
             return val;
         }
 
-        // GET: MyBookings
-        public ActionResult Index()
-        {
-            using (PonyContext db = new PonyContext())
-            {
-                var userid = User.Identity.GetUserId();
-                List<Booking> bookings = db.Bookings.Where(x => x.CustomerID == userid).ToList();
-                List<BookingList> bookingsList = new List<BookingList>();
-                BookingList bookingList;
-                foreach(Booking booking in bookings)
-                {
-                    bookingList = new BookingList();
-                    bookingList.Day = booking.Day.ToShortDateString();
-                    bookingList.Session = getSession(booking.Session);
-                    bookingList.PonyName = db.Ponies.Find(booking.PonyID).Name;
-                    bookingList.PonyPicture = db.Ponies.Find(booking.PonyID).Picture;
-                    bookingsList.Add(bookingList);
-                }
-                return View(bookingsList);
-            }
-        }
-
-        // GET: MyBookings/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: MyBookings/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: MyBookings/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: MyBookings/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: MyBookings/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: MyBookings/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: MyBookings/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
