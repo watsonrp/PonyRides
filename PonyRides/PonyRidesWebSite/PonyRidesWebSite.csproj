@@ -357,6 +357,7 @@
     <Content Include="Views\MyBookings\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include=".ebextensions\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

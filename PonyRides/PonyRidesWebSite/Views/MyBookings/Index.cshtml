@@ -20,7 +20,8 @@
         <th>
             Time
         </th>
-        <td></td>
+        <td>
+        </td>
     </tr>
 
 @foreach (var item in Model) {
@@ -38,7 +39,7 @@
             @Html.DisplayFor(modelItem => item.Session)
         </td>
         <td>
-            <!-- @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }) -->
+             @Html.ActionLink("Delete", "Delete", new { id=item.SessionID })
         </td>
     </tr>
 }

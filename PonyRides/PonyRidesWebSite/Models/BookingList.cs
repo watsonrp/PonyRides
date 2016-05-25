@@ -12,6 +12,8 @@ namespace PonyRidesWebSite.Models
         public string PonyPicture { get; set; }
         public string Day { get; set; }
         public string Session { get; set; }
+        public int SessionID { get; set; }
+
 
     }
 }

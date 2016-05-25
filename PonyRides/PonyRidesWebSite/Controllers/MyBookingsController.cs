@@ -13,6 +13,7 @@ namespace PonyRidesWebSite.Controllers
     {
 
         // GET: MyBookings
+        [Authorize]
         public ActionResult Index()
         {
             using (PonyContext db = new PonyContext())
@@ -28,6 +29,7 @@ namespace PonyRidesWebSite.Controllers
                     bookingList.Session = getSession(booking.Session);
                     bookingList.PonyName = db.Ponies.Find(booking.PonyID).Name;
                     bookingList.PonyPicture = db.Ponies.Find(booking.PonyID).Picture;
+                    bookingList.SessionID = booking.ID;
                     bookingsList.Add(bookingList);
                 }
                 return View(bookingsList);
@@ -41,14 +43,19 @@ namespace PonyRidesWebSite.Controllers
         //}
 
         // POST: MyBookings/Delete/5
+        [Authorize]
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                using (PonyContext db = new PonyContext())
+                {
+                    Pony pony = db.Ponies.Find(id);
+                    if (pony != null)
+                        db.Ponies.Remove(pony);
+                }
+                    return RedirectToAction("Index");
             }
             catch
             {
