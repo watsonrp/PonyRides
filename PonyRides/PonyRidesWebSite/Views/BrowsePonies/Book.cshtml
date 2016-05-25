@@ -2,32 +2,80 @@
 
 @{
     ViewBag.Title = "Book";
+
 }
 
-<h2>Book </h2>
-
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
     <div class="form-horizontal">
-        <h4>Booking</h4>
-        <hr />
+        <h2>Book @ViewBag.Pony</h2>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="@ViewBag.Picture" />
+                </div>
+                <div class="col-md-5">
+                    <label>Booking Date (Click and choose date)</label>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Day, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @{ Html.EnableClientValidation(false); }
+                            @Html.TextBoxFor(model => model.Day, htmlAttributes: new { @class = "form-control datepicker" })
+                            @Html.ValidationMessageFor(model => model.Day, "", new { @class = "text-danger" })
+                            @{ Html.EnableClientValidation(true); }
+                            @{Model.PonyID = ViewBag.PonyID;}
+                            @{Model.CustomerID = ViewBag.CustomerID;}
+                            @Html.HiddenFor(m => m.PonyID);
+                            @Html.HiddenFor(m => m.CustomerID);
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <label>Choose a session</label><br />
+                    <div class="btn-group" data-toggle="buttons">
+                        <span class="btn btn-primary">
+                            @Html.RadioButtonFor(model => model.Session, 1, new { id = "option1" })
+                            @Html.Label("option1", "Morning")
+                        </span>
+                        <span class="btn btn-primary">
+                            @Html.RadioButtonFor(model => model.Session, 2, new { id = "option2" })
+                            @Html.Label("option2", "Afternoon")
+                        </span>
+                        <span class="btn btn-primary">
+                            @Html.RadioButtonFor(model => model.Session, 3, new { id = "option3" })
+                            @Html.Label("option3", "Evening")
+                        </span>
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <input type="submit" value="Create Booking" class="btn btn-default btn-lg btn-lg btn-lg btn-primary" />
+                </div>
+                <div class="col-md-4">
+                    <label>Current Bookings</label>
+                </div>
             </div>
         </div>
     </div>
-}
-
+                                }
+<br />
+<br />
+<br />
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            language: 'en-nz',
+            pick12HourFormat: true,
+            pickTime: false
+        });
+    </script>
 }

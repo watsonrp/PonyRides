@@ -1,0 +1,45 @@
+﻿@model IEnumerable<PonyRidesWebSite.Models.BookingList>
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>View</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Pony
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Time
+        </th>
+        <td>
+        </td>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            <h3>@Html.DisplayFor(modelItem => item.PonyName)</h3>
+            <img src="@Html.DisplayFor(modelItem => item.PonyPicture)" width="25" height="25"/>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Day)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Session)
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
