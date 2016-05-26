@@ -10,7 +10,7 @@
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
         <h2>Book @ViewBag.Pony</h2>
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new { @class = "text-danger has-error" })
         <div class="form-group">
             <div class="row">
                 <div class="col-md-3">
@@ -53,9 +53,6 @@
                     <br />
                     <br />
                     <input type="submit" value="Create Booking" class="btn btn-default btn-lg btn-lg btn-lg btn-primary" />
-                </div>
-                <div class="col-md-4">
-                    <label>Current Bookings</label>
                 </div>
             </div>
         </div>

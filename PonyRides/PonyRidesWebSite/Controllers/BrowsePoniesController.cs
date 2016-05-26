@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using DayPilot.Web.Mvc;
-using DayPilot.Web.Mvc.Enums;
-using DayPilot.Web.Mvc.Events.Calendar;
 using Microsoft.AspNet.Identity;
 
 
@@ -40,7 +37,7 @@ namespace PonyRidesWebSite.Controllers
         }
 
         // POST: Book
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize]
         [HttpPost]
@@ -49,51 +46,44 @@ namespace PonyRidesWebSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (PonyContext db = new PonyContext())
+                if (!BookingClash(booking))
                 {
-                    db.Bookings.Add(booking);
-                    db.SaveChanges();
+                    using (PonyContext db = new PonyContext())
+                    {
+                        db.Bookings.Add(booking);
+                        db.SaveChanges();
+                    }
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
+                else
+                {
+                    using (PonyContext db = new PonyContext())
+                    {
+                        Pony pony = db.Ponies.Find(booking.PonyID);
+                        ViewBag.Pony = pony.Name;
+                        ViewBag.Picture = pony.Picture;
+                        ViewBag.PonyID = pony.ID;
+                        ViewBag.CustomerID = User.Identity.GetUserId();
+                        ModelState.AddModelError("", "Cannot book as there is a clash. Please choose another time, pony, or day.");
+                        return View(booking);
+                    }
+                }
             }
             return View(booking);
         }
 
-
-        public ActionResult Backend()
+        Boolean BookingClash(Booking theBooking)
         {
-            return new Dpc().CallBack(this);
-        }
-
-        class Dpc : DayPilotCalendar
-        {
-
-            protected override void OnInit(InitArgs e)
+            using (PonyContext db = new PonyContext())
             {
-                Update(CallBackUpdateType.Full);
-            }
-
-            protected override void OnEventResize(EventResizeArgs e)
-            {
-            }
-
-            protected override void OnEventMove(EventMoveArgs e)
-            {
-            }
-
-            protected override void OnTimeRangeSelected(TimeRangeSelectedArgs e)
-            {
-            }
-
-            protected override void OnFinish()
-            {
-                if (UpdateType == CallBackUpdateType.None)
+                foreach(Booking booking in db.Bookings.Where(x => x.Day == theBooking.Day).ToList())
                 {
-                    return;
+                    if (theBooking.PonyID   == booking.PonyID   &&
+                        theBooking.Session  == booking.Session)
+                        return true;
                 }
-
             }
-
+            return false;
         }
 
     }

@@ -2,40 +2,42 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>Pony Rides!</h1>
-    <div class="row">
-        <div class="col-md-4">
-            <p class="lead"><img src="~/media/pony.png" />
+<div>
+    <div class="jumbotron">
+        <h1>Pony Rides!</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <p class="lead"><img src="~/media/pony.png" /></p>
             </div>
-        <div class="col-md-8">
-            <p class="lead">Kids bored? What child doesn't love pony rides? Bring them to our fun filled farm close to the city and let them enjoy our ponies while you rest and relax with a coffee and cake.</p>
+            <div class="col-md-8">
+                <p class="lead">Kids bored? What child doesn't love pony rides? Bring them to our fun filled farm close to the city and let them enjoy our ponies while you rest and relax with a coffee and cake.</p>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-md-6">
-        <h2>Getting started</h2>
-        <p>
-            Browse our selection of Ponies and select your favorite one.
-        </p>
-        <button class="btn btn-lg" onclick="location.href = '/BrowsePonies';">Browse Ponies</button>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Getting started</h2>
+            <p>
+                Browse our selection of Ponies and select your favorite one.
+            </p>
+            <button class="btn btn-lg" onclick="location.href = '/BrowsePonies';">Browse Ponies</button>
 
-    </div>
-    <div class="col-md-6">
-        <h2>View your booking(s)</h2>
-        <p>Login and view your bookings.</p>
+        </div>
+        <div class="col-md-6">
+            <h2>View your booking(s)</h2>
+            <p>Login and view your bookings.</p>
 
-        @if (Request.IsAuthenticated)
-        {
-            <button class="btn btn-lg" onclick="location.href = '/MyBookings';">View Bookings</button>
-        }
-        else
-        {
-            <button class="btn btn-lg" onclick="location.href = '/Account/Login';">Login</button>
-        }
+            @if (Request.IsAuthenticated)
+            {
+                <button class="btn btn-lg" onclick="location.href = '/MyBookings';">View Bookings</button>
+            }
+            else
+            {
+                <button class="btn btn-lg" onclick="location.href = '/Account/Login';">Login</button>
+            }
 
 
+        </div>
     </div>
 </div>

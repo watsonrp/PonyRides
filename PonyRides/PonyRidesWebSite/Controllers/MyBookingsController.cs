@@ -37,31 +37,48 @@ namespace PonyRidesWebSite.Controllers
         }
 
         //// GET: MyBookings/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        // POST: MyBookings/Delete/5
         [Authorize]
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id)
         {
             try
             {
                 using (PonyContext db = new PonyContext())
                 {
-                    Pony pony = db.Ponies.Find(id);
-                    if (pony != null)
-                        db.Ponies.Remove(pony);
+                    Booking booking = db.Bookings.Find(id);
+                    if (booking != null)
+                    {
+                        db.Bookings.Remove(booking);
+                        db.SaveChanges();
+                    }
                 }
-                    return RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
             catch
             {
                 return View();
             }
         }
+
+        // POST: MyBookings/Delete/5
+        //[Authorize]
+        //[HttpPost]
+        //public ActionResult Delete(int id, FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        using (PonyContext db = new PonyContext())
+        //        {
+        //            Pony pony = db.Ponies.Find(id);
+        //            if (pony != null)
+        //                db.Ponies.Remove(pony);
+        //        }
+        //            return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
         string getSession(int session)
         {
