@@ -1,6 +1,9 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/moment")
+    @Scripts.Render("~/bundles/bootstrap")
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - PonyRides!</title>
@@ -23,16 +26,16 @@
                 <ul class="nav navbar-nav">
 
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        @if (this.User.IsInRole("Admin"))
-                        {
-                            <li>@Html.ActionLink("Booking Admin", "Index", "Booking")</li>
-                            <li>@Html.ActionLink("Pony Admin", "Index", "Ponies")</li>
-                        }
-                        @if (Request.IsAuthenticated && !this.User.IsInRole("Admin"))
-                        {
-                            <li>@Html.ActionLink("My Bookings", "Index", "MyBookings")</li>
-                            <li>@Html.ActionLink("Browse Ponies", "Index", "BrowsePonies")</li>
-                        }
+                    @if (this.User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Booking Admin", "Index", "Booking")</li>
+                        <li>@Html.ActionLink("Pony Admin", "Index", "Ponies")</li>
+                    }
+                    @if (Request.IsAuthenticated && !this.User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("My Bookings", "Index", "MyBookings")</li>
+                        <li>@Html.ActionLink("Browse Ponies", "Index", "BrowsePonies")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -46,8 +49,8 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+
     @RenderSection("scripts", required: false)
 </body>
+
 </html>

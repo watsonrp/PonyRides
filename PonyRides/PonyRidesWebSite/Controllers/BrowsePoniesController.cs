@@ -44,32 +44,39 @@ namespace PonyRidesWebSite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Book(Booking booking)
         {
-            if (ModelState.IsValid)
+            using (PonyContext db = new PonyContext())
             {
-                if (!BookingClash(booking))
+                Pony pony = db.Ponies.Find(booking.PonyID);
+                ViewBag.Pony = pony.Name;
+                ViewBag.Picture = pony.Picture;
+                ViewBag.PonyID = pony.ID;
+                ViewBag.CustomerID = User.Identity.GetUserId();
+
+                if (booking.Day < DateTime.Today)
                 {
-                    using (PonyContext db = new PonyContext())
+                    ModelState.AddModelError("", "Booking is in the past, please choose today or a future date.");
+                    return View(booking);
+                }
+
+                if (ModelState.IsValid)
+                {
+                    if (!BookingClash(booking))
                     {
                         db.Bookings.Add(booking);
                         db.SaveChanges();
+                        return RedirectToAction("Index");
                     }
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    using (PonyContext db = new PonyContext())
+                    else
                     {
-                        Pony pony = db.Ponies.Find(booking.PonyID);
-                        ViewBag.Pony = pony.Name;
-                        ViewBag.Picture = pony.Picture;
-                        ViewBag.PonyID = pony.ID;
-                        ViewBag.CustomerID = User.Identity.GetUserId();
                         ModelState.AddModelError("", "Cannot book as there is a clash. Please choose another time, pony, or day.");
                         return View(booking);
                     }
                 }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
-            return View(booking);
         }
 
         Boolean BookingClash(Booking theBooking)
